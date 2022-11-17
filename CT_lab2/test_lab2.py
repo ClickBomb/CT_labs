@@ -1,5 +1,4 @@
-from CT_lab1.linear_code import LinearCode
-from .functions import *
+from CT_lab2.functions import *
 import numpy as np
 
 
@@ -9,6 +8,7 @@ def find_error_pos(v_syndrom, syndromes):
         if np.array_equal(v_syndrom, s):
             return pos
         pos += 1
+    return -1
 
 
 def test_lab2_part_1():

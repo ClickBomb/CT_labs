@@ -1,4 +1,3 @@
-from itertools import combinations
 import numpy as np
 from CT_lab1.functions import ref, rref
 
@@ -96,12 +95,11 @@ class LinearCode:
 
         code_words = []
         for word in words:
-            res = np.matmul(word, G)
-            res %= 2  # убираем "2" из списка
+            res = np.matmul(word, G) % 2
             code_words.append(res)
 
         code_words = set(tuple(code_word) for code_word in code_words)  # убираю повторяющиеся слова
-        return code_words
+        return np.array([list(word) for word in code_words])
 
     # 1.5.1
     @staticmethod
