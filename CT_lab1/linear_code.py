@@ -82,6 +82,7 @@ class LinearCode:
     # 1.4.2 (взять все двоичные слова длины k, умножить каждое на G)
     @staticmethod
     def get_all_code_words(k, G):
+        G = np.array(G, dtype=int)
         if k != G.shape[0]:
             print("ERROR")
             exit(-1)

@@ -55,7 +55,25 @@ def test_seek_error(v, all_errors, H):
     for error in all_errors:
         Synd.append(np.matmul(error, H) % 2)
 
-    error = all_errors[random.randint(0, len(all_errors) - 1)]
+    error = all_errors[0]
+    v_p_e = (v + error) % 2
+    syndrome_of_v_p_e = np.matmul(v_p_e, H) % 2
+    error_position = find_error_pos(syndrome_of_v_p_e, Synd)
+    if error_position == -1:
+        print(f"Can't find syndrome={syndrome_of_v_p_e} for err={error}")
+        return
+    v_without_error = (v_p_e + all_errors[error_position]) % 2
+    is_v_w_e_correct = np.array_equal(v, v_without_error)
+
+    print(f"v = \n{v}")
+    print(f"err = \n{error}")
+    print(f"v + err = \n{v_p_e}")
+    print(f"syndrome = \n{syndrome_of_v_p_e}")
+    print(f"error positions = \n{all_errors[error_position]}")
+    print(f"v without err = \n{v_without_error}")
+    print(f"is it correct?: {is_v_w_e_correct}\n")
+
+    error = all_errors[len(all_errors) - 1]
     v_p_e = (v + error) % 2
     syndrome_of_v_p_e = np.matmul(v_p_e, H) % 2
     error_position = find_error_pos(syndrome_of_v_p_e, Synd)

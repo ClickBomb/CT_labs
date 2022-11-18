@@ -46,7 +46,9 @@ def test_lab3_part_2(r):
     code_words = LinearCode.get_all_code_words(k, G_star)
 
     v = code_words[random.randint(0, len(code_words) - 1)]
-    test_seek_error(v, e_1, H_star)
-    test_seek_error(v, e_2, H_star)
+
+    e_1_and_2 = np.append(e_1, e_2, axis=0)
+    test_seek_error(v, e_1_and_2, H_star)
+    # test_seek_error(v, e_2 + e, H_star)
     test_seek_error(v, e_3, H_star)
     print('-' * 30, '\n')
