@@ -67,3 +67,7 @@ def test_lab4_part2():
         print('\n')
     G_1_3 = G(1, 3)
     G_1_4 = G(1, 4)
+
+    H_test = H(1, 3)
+    for row in H_test:
+        print(row)

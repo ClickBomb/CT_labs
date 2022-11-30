@@ -99,3 +99,38 @@ def G(r, m):
     to_return = fill_array(to_return)
     return to_return
 
+
+def Kronker_mul(A, B):
+    B = np.array(B, dtype=int)
+    res = []
+    for row in A:
+        new_row = []
+        for elem in row:
+            if not isinstance(elem, list):
+                val = np.multiply(elem, B)
+                new_row.append(val)
+        for i in range(len(new_row[0])):
+            temp = []
+            for j in range(len(new_row)):
+                if i >= len(new_row[j]):
+                    continue
+                temp += list(new_row[j][i])
+            res.append(temp)
+    return res
+
+# функция формирования проверочной матрицы кода Рида-Маллера
+def H(i, m):
+    H = [[1, 1], [1, -1]]
+    I_test = [[1, 0], [0, 1]]
+    first_I = np.eye(2 ** (m - i), dtype=int)
+    second_I = np.eye(2 ** (i - 1), dtype=int)
+
+    # test_mul = Kronker_mul(I_test, H)
+    # print(f"H_test =")
+    # for row in test_mul:
+    #     print(row)
+    # print('\n')
+
+    res = Kronker_mul(first_I, H)
+    res = Kronker_mul(res, second_I)
+    return res
