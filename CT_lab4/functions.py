@@ -58,22 +58,44 @@ def decode_word(w):
     print("Can't recognize error")
 
 
+# функция для приведения всех вложенных массивов к одному уровню: [[[1, 1], [1, 1]], [1, 1]] -> [[1, 1], [1, 1], [1, 1]]
+# это чтобы хранить все матрицы построчно
+def fill_array(arr: list):
+    filled_array = []
+
+    def fill(matrix):
+        for block in matrix:
+            if isinstance(block, list) and isinstance(block[0], list):
+                fill(block)
+            else:
+                filled_array.append(block)
+
+    fill(arr)
+    return filled_array
+
+
+# функция формирования порождающей матрицы кода Рида-Маллера
 def G(r, m):
+    to_return = None
     if 0 < r < m:
         block_1 = G(r, m - 1)
         block_2 = G(r - 1, m - 1)
-        zero_block = [0] * (len(block_1[0]) * 2 - len(block_2))
+        zero_block = [0] * (2 ** m - len(block_2))
         up_block = []
-        for row in block_1:
-            up_block.append(row + row)
+        for block_row in block_1:
+            up_block.append(block_row + block_row)
 
-        return [
+        to_return = [
             up_block,
-            [zero_block + block_2]
+            zero_block + block_2
         ]
     if r == 0:
-        return [1] * 2 ** m
+        to_return = [1] * (2 ** m)
     if r == m:
         row = [0] * 2 ** m
         row[len(row) - 1] = 1
-        return [G(m - 1, m), row]
+
+        to_return = [G(m - 1, m), row]
+    to_return = fill_array(to_return)
+    return to_return
+

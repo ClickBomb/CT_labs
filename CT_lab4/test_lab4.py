@@ -3,10 +3,10 @@ import random
 import numpy as np
 
 from CT_lab1.linear_code import LinearCode
-from CT_lab3.functions import all_e, test_seek_error
 from CT_lab4.functions import *
 
 
+# 4.1 и 4.2
 def test_lab4_part1():
     print(f"G_golay = \n{G_golay}\n")
     print(f"H_golay = \n{H_golay}\n")
@@ -53,18 +53,17 @@ def test_lab4_part1():
             print("4-кратная ошибка не исправлена")
 
 
+# 4.3, 4.4, 4.5
 def test_lab4_part2():
-    r = 1
-    m = 3
-    res = G(r, m)
-
-    norm_matrix = []
-
-    def refactor_matrix(matrix):
-        for block in matrix:
-            if isinstance(block, list) and isinstance(block[0], list):
-                refactor_matrix(block)
-            else:
-                norm_matrix.append(block)
-    refactor_matrix(res)
-    print(norm_matrix)
+    r_m = [(0, 1), (1, 1), (0, 2), (1, 2), (2, 2), (0, 3), (1, 3), (1, 4)]
+    for r, m in r_m:
+        res = G(r, m)
+        print(f"G({r}, {m}) =")
+        for row in res:
+            if isinstance(row, int):
+                print(res)
+                break
+            print(row)
+        print('\n')
+    G_1_3 = G(1, 3)
+    G_1_4 = G(1, 4)
