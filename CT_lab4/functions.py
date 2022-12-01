@@ -1,4 +1,5 @@
 import random
+from CT_lab1.linear_code import LinearCode
 
 import numpy as np
 
@@ -134,3 +135,23 @@ def H(i, m):
     res = Kronker_mul(first_I, H)
     res = Kronker_mul(res, second_I)
     return res
+
+
+def fast_decode_algorithm(m, w):
+    w_hat = [-1 if elem == 0 else elem for elem in w]
+
+    w_1 = np.matmul(np.array(w_hat, dtype=int), np.array(H(1, m), dtype=int))
+    w_i = [w_1]
+    for i in range(2, m + 1):
+        w_i.append(np.matmul(w_i[i - 2], np.array(H(i, m), dtype=int)))
+
+    max_elem = max(w_i[m - 1], key=abs)
+    j = list(w_i[m - 1]).index(max_elem)
+    bin_j = LinearCode.int_to_bin_word_array(j, m)
+    bin_j.reverse()
+
+    if max_elem >= 0:
+        v = [1] + bin_j
+    else:
+        v = [0] + bin_j
+    return np.array(v)
